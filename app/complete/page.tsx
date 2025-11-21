@@ -9,7 +9,6 @@ import AIAssistant from '@/components/ai-assistant'
 import ExportModal from '@/components/export-modal'
 import { useAppStore } from '@/stores/appStore'
 
-// Nourri : Le store est utilisé pour synchroniser le thème sélectionné avec l'éditeur (sans changement de structure)
 export default function CompletePage() {
   const [showEditor, setShowEditor] = useState(false)
   const [showAI, setShowAI] = useState(false)
@@ -51,12 +50,12 @@ export default function CompletePage() {
 
       {/* Theme Selection */}
       <section className="py-16 px-4">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx.auto">
           <div className="text-center mb-12">
             <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-4">
               Choisissez votre <span className="gradient-text">thème magique</span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-2xl mx.auto">
               Chaque thème offre une expérience unique avec ses propres animations et effets
             </p>
           </div>
@@ -67,12 +66,12 @@ export default function CompletePage() {
 
       {/* Features Grid */}
       <section className="py-16 px-4">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx.auto">
           <div className="text-center mb-12">
             <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-4">
               Fonctionnalités <span className="gradient-text">premium</span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-2xl mx.auto">
               Tout ce dont vous avez besoin pour créer des cartes exceptionnelles
             </p>
           </div>
@@ -94,7 +93,7 @@ export default function CompletePage() {
                 whileHover={{ y: -5 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx.auto mb-4 flex items-center justify-center">
                   <span className="text-2xl">{feature.icon}</span>
                 </div>
                 <h3 className="text-white font-semibold text-lg mb-2">{feature.title}</h3>

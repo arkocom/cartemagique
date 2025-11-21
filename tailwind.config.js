@@ -5,12 +5,6 @@ module.exports = {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        great: ["'Great Vibes'", "cursive"],
-        dancing: ["'Dancing Script'", "cursive"],
-        montserrat: ["Montserrat", "sans-serif"],
-        roboto: ["Roboto", "sans-serif"]
-      },
       colors: {
         glass: {
           50: "rgba(255,255,255,0.05)",
@@ -18,6 +12,12 @@ module.exports = {
           200: "rgba(255,255,255,0.2)",
           300: "rgba(255,255,255,0.3)"
         }
+      },
+      fontFamily: {
+        great: ["'Great Vibes'", "cursive"],
+        dancing: ["'Dancing Script'", "cursive"],
+        montserrat: ["Montserrat", "sans-serif"],
+        roboto: ["Roboto", "sans-serif"]
       },
       animation: {
         float: "float 6s ease-in-out infinite",

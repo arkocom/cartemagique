@@ -54,7 +54,7 @@ export default function CanvasEditor({ isOpen, onClose, theme }: { isOpen: boole
                     return (
                       <Text
                         key={el.id}
-                        text={el.content}
+                        text={el.text}
                         x={el.x}
                         y={el.y}
                         fontSize={el.fontSize}

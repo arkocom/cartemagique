@@ -1,4 +1,4 @@
-export type ElementType = 'text' | 'sticker';
+export type ElementType = "text" | "sticker";
 
 export interface CardElement {
   id: string;
@@ -12,9 +12,9 @@ export interface CardElement {
   emoji?: string;
   fontSize?: number;
   fontFamily?: string;
-  fontStyle?: 'normal' | 'italic';
-  fontWeight?: 'normal' | 'bold';
-  textAlign?: 'left' | 'center' | 'right';
+  fontStyle?: "normal" | "italic";
+  fontWeight?: "normal" | "bold";
+  textAlign?: "left" | "center" | "right";
   fill?: string;
   zIndex: number;
 }

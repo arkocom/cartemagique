@@ -8,6 +8,13 @@ const nextConfig = {
     };
     return config;
   },
+  experimental: {
+    turbo: {
+      resolveAlias: {
+        canvas: './empty.js',
+      },
+    },
+  },
   images: {
     unoptimized: true
   }
