@@ -9,13 +9,13 @@ const roboto = Roboto({ subsets: ["latin"], weight: ["400", "700"], variable: "-
 
 export const metadata: Metadata = {
   title: "CarteMagique.io V2",
-  description: "Créateur de cartes magiques pro",
+  description: "Créateur de cartes magiques avec animations et IA",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">
-      <body className={`${greatVibes.variable} ${dancing.variable} ${montserrat.variable} ${roboto.variable}`}>
+      <body className={`${greatVibes.variable} ${dancing.variable} ${montserrat.variable} ${roboto.variable} bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white`}>
         {children}
       </body>
     </html>

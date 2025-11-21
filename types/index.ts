@@ -1,4 +1,4 @@
-export type ElementType = "text" | "sticker" | "image";
+export type ElementType = 'text' | 'sticker';
 
 export interface CardElement {
   id: string;
@@ -8,25 +8,33 @@ export interface CardElement {
   width?: number;
   height?: number;
   rotation: number;
-  text?: string;
+  content?: string;
+  emoji?: string;
   fontSize?: number;
   fontFamily?: string;
-  fontStyle?: "normal" | "italic";
-  fontWeight?: "normal" | "bold";
-  textAlign?: "left" | "center" | "right";
+  fontStyle?: 'normal' | 'italic';
+  fontWeight?: 'normal' | 'bold';
+  textAlign?: 'left' | 'center' | 'right';
   fill?: string;
-  src?: string;
   zIndex: number;
 }
 
 export interface Theme {
   id: string;
   name: string;
-  backgroundImage: string;
+  description: string;
+  image: string;
+  colors: {
+    primary: string;
+    secondary: string;
+    accent: string;
+    background: string;
+    text: string;
+  };
+  gradient: string;
 }
 
 export interface Sticker {
-  id: string;
   emoji?: string;
   url?: string;
 }
