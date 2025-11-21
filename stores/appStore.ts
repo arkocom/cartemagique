@@ -26,7 +26,7 @@ export const useAppStore = create<AppState>()(
         elements: s.elements.map(e => e.id === id ? { ...e, ...updates } : e)
       })),
       deleteElement: (id) => set((s) => ({
-        elements: s.elements.filter(e => e.id !== id),
+        elements: s.elements.filter(e => e.id === id),
         selectedId: s.selectedId === id ? null : s.selectedId
       })),
       selectElement: (id) => set({ selectedId: id }),
