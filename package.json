@@ -8,8 +8,11 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "browser": {
-    "canvas": false
+ "browser": {
+    "canvas": false,
+    "fs": false,
+    "path": false,
+    "os": false
   },
   "dependencies": {
     "next": "15.0.0-rc.0",
