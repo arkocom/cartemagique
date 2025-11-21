@@ -10,8 +10,10 @@ export interface Theme {
     text: string
   }
   particles: string
-  music: string
-  gradient: string
+  music: string;
+  gradient: string;
+  // C'est la ligne qui manquait pour afficher vos fonds d'écran !
+  image: string 
 }
 
 export interface Card {
