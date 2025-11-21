@@ -1,6 +1,6 @@
 {
-  "name": "cartemagique",
-  "version": "1.0.0",
+  "name": "cartemagique-v2",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -8,25 +8,29 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "browser": {
+    "canvas": false
+  },
   "dependencies": {
-    "autoprefixer": "^10.4.20",
-    "framer-motion": "^11.11.17",
-    "konva": "^9.3.18",
-    "next": "15.0.3",
-    "postcss": "^8.4.49",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-konva": "^18.2.10",
-    "tailwindcss": "^3.4.1",
-    "use-image": "^1.1.4",
-    "zustand": "^5.0.1"
+    "next": "15.0.0-rc.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "typescript": "5.6.2",
+    "@types/node": "22.7.4",
+    "@types/react": "18.3.11",
+    "@types/react-dom": "18.3.0",
+    "tailwindcss": "3.4.14",
+    "autoprefixer": "10.4.20",
+    "postcss": "8.4.47",
+    "lucide-react": "0.453.0",
+    "konva": "9.3.14",
+    "react-konva": "18.2.10",
+    "use-image": "1.1.1",
+    "zustand": "5.0.0-rc.2",
+    "react-colorful": "5.6.1"
   },
   "devDependencies": {
-    "@types/node": "^20.11.5",
-    "@types/react": "^18.2.48",
-    "@types/react-dom": "^18.2.18",
-    "eslint": "^8.56.0",
-    "eslint-config-next": "15.0.3",
-    "typescript": "^5.3.3"
+    "eslint": "9.12.0",
+    "eslint-config-next": "15.0.0-rc.0"
   }
 }

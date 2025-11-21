@@ -1,40 +1,23 @@
-import type { Metadata } from 'next'
-import { Inter, Playfair_Display } from 'next/font/google'
-import './globals.css'
+import type { Metadata } from "next";
+import { Great_Vibes, Dancing_Script, Montserrat, Roboto } from "next/font/google";
+import "./globals.css";
 
-const inter = Inter({ 
-  subsets: ['latin'],
-  variable: '--font-inter',
-})
-
-const playfair = Playfair_Display({ 
-  subsets: ['latin'],
-  variable: '--font-playfair',
-})
+const greatVibes = Great_Vibes({ subsets: ["latin"], weight: "400", variable: "--font-great" });
+const dancing = Dancing_Script({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-dancing" });
+const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat" });
+const roboto = Roboto({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-roboto" });
 
 export const metadata: Metadata = {
-  title: 'CarteMagique.io - Créez des cartes magiques en un clic ✨',
-  description: 'Créez des cartes de vœux personnalisées avec des animations magiques, de la musique et des effets spéciaux. Design glassmorphism 2025.',
-  keywords: 'cartes de vœux, animations, design, glassmorphism, créateur, personnalisé',
-  authors: [{ name: 'CarteMagique.io' }],
-  viewport: 'width=device-width, initial-scale=1',
-  openGraph: {
-    title: 'CarteMagique.io - Cartes magiques personnalisées',
-    description: 'Transformez vos messages en œuvres d\'art avec notre éditeur intuitif',
-    type: 'website',
-  },
-}
+  title: "CarteMagique.io V2",
+  description: "Créateur de cartes magiques pro",
+};
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">
-      <body className={`${inter.variable} ${playfair.variable}`}>
+      <body className={`${greatVibes.variable} ${dancing.variable} ${montserrat.variable} ${roboto.variable}`}>
         {children}
       </body>
     </html>
-  )
+  );
 }

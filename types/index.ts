@@ -1,55 +1,32 @@
-export interface Theme {
-  id: string
-  name: string
-  description: string
-  colors: {
-    primary: string
-    secondary: string
-    accent: string
-    background: string
-    text: string
-  }
-  particles: string
-  music: string;
-  gradient: string;
-  // C'est la ligne qui manquait pour afficher vos fonds d'écran !
-  image: string 
-}
-
-export interface Card {
-  id: string
-  title: string
-  theme: string
-  content: string
-  author: string
-  rating: number
-  createdAt: Date
-  imageUrl?: string
-}
+export type ElementType = "text" | "sticker" | "image";
 
 export interface CardElement {
-  id: string
-  type: 'text' | 'image' | 'shape'
-  x: number
-  y: number
-  width: number
-  height: number
-  rotation: number
-  content?: string
-  style?: any
+  id: string;
+  type: ElementType;
+  x: number;
+  y: number;
+  width?: number;
+  height?: number;
+  rotation: number;
+  text?: string;
+  fontSize?: number;
+  fontFamily?: string;
+  fontStyle?: "normal" | "italic";
+  fontWeight?: "normal" | "bold";
+  textAlign?: "left" | "center" | "right";
+  fill?: string;
+  src?: string;
+  zIndex: number;
 }
 
-export interface User {
-  id: string
-  name: string
-  email: string
-  avatar?: string
-  createdAt: Date
+export interface Theme {
+  id: string;
+  name: string;
+  backgroundImage: string;
 }
 
-export interface ExportOptions {
-  format: 'png' | 'jpg' | 'gif' | 'mp4'
-  quality: 'low' | 'medium' | 'high'
-  includeAudio: boolean
-  size: 'small' | 'medium' | 'large'
+export interface Sticker {
+  id: string;
+  emoji?: string;
+  url?: string;
 }
