@@ -1,9 +1,8 @@
 'use client';
 
 import { useAppStore } from '@/stores/appStore';
-import { Bold, Italic, AlignLeft, AlignCenter, AlignRight, ArrowUpCircle, ArrowDownCircle, Trash2 } from 'lucide-react';
+import { Bold, Italic, AlignLeft, AlignCenter, AlignRight, ArrowUpToLine, ArrowDownToLine, Trash2 } from 'lucide-react';
 import { HexColorPicker } from 'react-colorful';
-import { cn } from '@/lib/utils';
 
 export default function Toolbar() {
   const { selectedId, elements, updateElement, deleteElement, bringToFront, sendToBack } = useAppStore();
@@ -16,13 +15,13 @@ export default function Toolbar() {
       <div className="flex gap-2">
         <button
           onClick={() => updateElement(selectedId!, { fontWeight: element.fontWeight === 'bold' ? 'normal' : 'bold' })}
-          className={cn('p-3 rounded-lg hover:bg-white/10 transition', element.fontWeight === 'bold' ? 'bg-white/20' : '')}
+          className={`p-3 rounded-lg hover:bg-white/10 transition ${element.fontWeight === 'bold' ? 'bg-white/20' : ''}`}
         >
           <Bold className="w-5 h-5" />
         </button>
         <button
           onClick={() => updateElement(selectedId!, { fontStyle: element.fontStyle === 'italic' ? 'normal' : 'italic' })}
-          className={cn('p-3 rounded-lg hover:bg-white/10 transition', element.fontStyle === 'italic' ? 'bg-white/20' : '')}
+          className={`p-3 rounded-lg hover:bg-white/10 transition ${element.fontStyle === 'italic' ? 'bg-white/20' : ''}`}
         >
           <Italic className="w-5 h-5" />
         </button>
@@ -30,19 +29,19 @@ export default function Toolbar() {
       <div className="flex gap-2">
         <button
           onClick={() => updateElement(selectedId!, { textAlign: 'left' })}
-          className={cn('p-3 rounded-lg hover:bg-white/10 transition', element.textAlign === 'left' ? 'bg-white/20' : '')}
+          className={`p-3 rounded-lg hover:bg-white/10 transition ${element.textAlign === 'left' ? 'bg-white/20' : ''}`}
         >
           <AlignLeft className="w-5 h-5" />
         </button>
         <button
           onClick={() => updateElement(selectedId!, { textAlign: 'center' })}
-          className={cn('p-3 rounded-lg hover:bg-white/10 transition', element.textAlign === 'center' ? 'bg-white/20' : '')}
+          className={`p-3 rounded-lg hover:bg-white/10 transition ${element.textAlign === 'center' ? 'bg-white/20' : ''}`}
         >
           <AlignCenter className="w-5 h-5" />
         </button>
         <button
           onClick={() => updateElement(selectedId!, { textAlign: 'right' })}
-          className={cn('p-3 rounded-lg hover:bg-white/10 transition', element.textAlign === 'right' ? 'bg-white/20' : '')}
+          className={`p-3 rounded-lg hover:bg-white/10 transition ${element.textAlign === 'right' ? 'bg-white/20' : ''}`}
         >
           <AlignRight className="w-5 h-5" />
         </button>
@@ -72,10 +71,10 @@ export default function Toolbar() {
       />
       <div className="flex gap-2">
         <button onClick={() => bringToFront(selectedId!)} className="p-3 hover:bg-white/10 rounded-lg transition">
-          <ArrowUpCircle className="w-5 h-5" />
+          <ArrowUpToLine className="w-5 h-5" />
         </button>
         <button onClick={() => sendToBack(selectedId!)} className="p-3 hover:bg-white/10 rounded-lg transition">
-          <ArrowDownCircle className="w-5 h-5" />
+          <ArrowDownToLine className="w-5 h-5" />
         </button>
         <button onClick={() => deleteElement(selectedId!)} className="p-3 hover:bg-red-500/20 rounded-lg transition">
           <Trash2 className="w-5 h-5" />

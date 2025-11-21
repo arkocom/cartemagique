@@ -9,7 +9,7 @@ import AIAssistant from '@/components/ai-assistant'
 import ExportModal from '@/components/export-modal'
 import { useAppStore } from '@/stores/appStore'
 
-// Nourri : Ajout de gestion du thème via store pour synchronisation avec l'éditeur
+// Nourri : Le store est utilisé pour synchroniser le thème sélectionné avec l'éditeur (sans changement de structure)
 export default function CompletePage() {
   const [showEditor, setShowEditor] = useState(false)
   const [showAI, setShowAI] = useState(false)
@@ -107,12 +107,12 @@ export default function CompletePage() {
 
       {/* Community Gallery Preview */}
       <section className="py-16 px-4">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx.auto">
           <div className="text-center mb-12">
             <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-4">
               Galerie <span className="gradient-text">communautaire</span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-2xl mx.auto">
               Découvrez les créations magnifiques de notre communauté
             </p>
           </div>
@@ -166,12 +166,12 @@ export default function CompletePage() {
 
       {/* CTA Section */}
       <section className="py-16 px-4">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="max-w-4xl mx.auto text-center">
           <div className="glass-card rounded-3xl p-12">
             <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-6">
               Prêt à créer votre première carte magique ?
             </h2>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx.auto">
               Rejoignez des milliers de créateurs et donnez vie à vos messages 
               avec des cartes uniques et personnalisées.
             </p>
@@ -195,7 +195,7 @@ export default function CompletePage() {
 
       {/* Footer */}
       <footer className="py-12 px-4 border-t border-gray-800">
-        <div className="max-w-7xl mx-auto text-center">
+        <div className="max-w-7xl mx.auto text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
             <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">✨</span>

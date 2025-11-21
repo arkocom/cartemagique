@@ -8,7 +8,7 @@ export interface CardElement {
   width?: number;
   height?: number;
   rotation: number;
-  content?: string;
+  text?: string;
   emoji?: string;
   fontSize?: number;
   fontFamily?: string;
