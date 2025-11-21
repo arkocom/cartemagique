@@ -1,134 +1,133 @@
-'use client'
+'use client';
 
-import { useState, useRef, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { Stage, Layer, Text, Image as KonvaImage, Transformer, Rect } from 'react-konva'
-import useImage from 'use-image'
-import { useAppStore } from '@/stores/appStore'
-import { themes } from '@/lib/themes' // <--- Import du bon fichier existant
+import dynamic from 'next/dynamic';
+import { useAppStore } from '@/stores/appStore';
+import { themes } from '@/lib/themes';
+import useImage from 'use-image';
+import Toolbar from './ui/toolbar';
+import StickerPanel from './ui/sticker-panel';
 
-interface CanvasEditorProps { isOpen: boolean; onClose: () => void; theme?: string | null }
+const Stage = dynamic(() => import('react-konva').then(m => m.Stage), { ssr: false });
+const Layer = dynamic(() => import('react-konva').then(m => m.Layer), { ssr: false });
+const Text = dynamic(() => import('react-konva').then(m => m.Text), { ssr: false });
+const Image = dynamic(() => import('react-konva').then(m => m.Image), { ssr: false });
+const Transformer = dynamic(() => import('react-konva').then(m => m.Transformer), { ssr: false });
 
-// --- FOND D'ÉCRAN ---
-const BackgroundLayer = ({ themeName, width, height }: { themeName: string, width: number, height: number }) => {
-  // On cherche le thème par son NOM (ex: "Celestial Dreams") ou son ID
-  const activeTheme = themes.find(t => t.name === themeName || t.id === themeName)
-  // Fallback : si on trouve pas, on prend le premier, sinon l'image du thème
-  const imageUrl = activeTheme ? activeTheme.image : '/themes/celeste.png'
-  
-  const [image] = useImage(imageUrl, 'anonymous')
+export default function CanvasEditor({ isOpen, onClose, theme }: { isOpen: boolean; onClose: () => void; theme: string | null }) {
+  if (!isOpen) return null;
 
-  let crop = { x: 0, y: 0, width: 0, height: 0 }
-  if (image) {
-    const scale = Math.max(width / image.width, height / image.height)
-    crop = { x: (image.width * scale - width) / (2 * scale), y: (image.height * scale - height) / (2 * scale), width: width / scale, height: height / scale }
-  }
+  const { elements, selectedId, selectElement, updateElement, setTheme, addElement } = useAppStore();
+  const currentTheme = themes.find(t => t.id === theme) || themes[0];
+  const [bgImage, status] = useImage(currentTheme.image);
 
   return (
-    <>
-      <Rect width={width} height={height} fill="#1e1e2e" />
-      {image && <KonvaImage image={image} width={width} height={height} crop={crop} listening={false} />}
-      <Rect width={width} height={height} fill="black" opacity={0.2} listening={false} />
-    </>
-  )
-}
-
-// --- IMAGE AJOUTÉE PAR L'UTILISATEUR ---
-const URLImage = ({ imageProps, onSelect, onChange, isSelected }: any) => {
-  const [img] = useImage(imageProps.src, 'anonymous')
-  const shapeRef = useRef<any>(null); const trRef = useRef<any>(null);
-  useEffect(() => { if (isSelected && trRef.current) { trRef.current.nodes([shapeRef.current]); trRef.current.getLayer().batchDraw() } }, [isSelected])
-  return <><KonvaImage {...imageProps} image={img} ref={shapeRef} draggable onClick={onSelect} onTap={onSelect}
-    onDragEnd={(e: any) => onChange({ x: e.target.x(), y: e.target.y() })}
-    onTransformEnd={() => onChange({ x: shapeRef.current.x(), y: shapeRef.current.y(), rotation: shapeRef.current.rotation(), scaleX: shapeRef.current.scaleX(), scaleY: shapeRef.current.scaleY() })}
-  />{isSelected && <Transformer ref={trRef} />}</>
-}
-
-// --- TEXTE ÉDITABLE ---
-const EditableText = ({ textProps, onSelect, onChange, isSelected }: any) => {
-  const shapeRef = useRef<any>(null); const trRef = useRef<any>(null);
-  useEffect(() => { if (isSelected && trRef.current) { trRef.current.nodes([shapeRef.current]); trRef.current.getLayer().batchDraw() } }, [isSelected])
-  return <><Text {...textProps} ref={shapeRef} draggable onClick={onSelect} onTap={onSelect}
-    onDragEnd={(e: any) => onChange({ x: e.target.x(), y: e.target.y() })}
-    onTransformEnd={() => onChange({ x: shapeRef.current.x(), y: shapeRef.current.y(), rotation: shapeRef.current.rotation(), scaleX: shapeRef.current.scaleX(), scaleY: shapeRef.current.scaleY() })}
-    onDblClick={() => { const val = prompt('Modifier le texte :', textProps.content); if (val !== null) onChange({ content: val }) }}
-  />{isSelected && <Transformer ref={trRef} />}</>
-}
-
-// --- COMPOSANT PRINCIPAL ---
-export default function CanvasEditor({ isOpen, onClose, theme }: CanvasEditorProps) {
-  const { elements, addElement, updateElement, selectedId, selectElement, removeElement } = useAppStore()
-  const [stageSize, setStageSize] = useState({ width: 800, height: 600 })
-  const containerRef = useRef<HTMLDivElement>(null)
-  const stageRef = useRef<any>(null)
-  const fileInputRef = useRef<HTMLInputElement>(null)
-  
-  const currentThemeName = theme || 'Celestial Dreams'
-
-  useEffect(() => { if (containerRef.current) setStageSize({ width: containerRef.current.offsetWidth, height: containerRef.current.offsetHeight }) }, [isOpen])
-  
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => { if ((e.key === 'Delete' || e.key === 'Backspace') && selectedId) removeElement(selectedId) }
-    window.addEventListener('keydown', handleKeyDown); return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [selectedId, removeElement])
-
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = () => {
-        const img = new Image(); img.src = reader.result as string;
-        img.onload = () => addElement({ id: `img-${Date.now()}`, type: 'image', x: 100, y: 100, src: reader.result as string, width: 200, height: 200 * (img.height/img.width), rotation: 0, scaleX: 1, scaleY: 1 })
-      }
-      reader.readAsDataURL(file)
-    }
-  }
-
-  const handleExport = () => {
-    if (stageRef.current) {
-        selectElement(null)
-        setTimeout(() => {
-            const link = document.createElement('a'); link.download = `CarteMagique.png`; link.href = stageRef.current.toDataURL({ pixelRatio: 2 });
-            document.body.appendChild(link); link.click(); document.body.removeChild(link);
-        }, 100)
-    }
-  }
-
-  if (!isOpen) return null
-
-  return (
-    <motion.div className="fixed inset-0 bg-black/95 z-50 flex flex-col" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <div className="h-16 glass flex items-center justify-between px-4">
-        <h3 className="text-white font-bold hidden sm:block">{currentThemeName}</h3>
-        <div className="flex gap-2">
-            <button onClick={() => addElement({ id: `t-${Date.now()}`, type: 'text', x: stageSize.width/2, y: stageSize.height/2, content: 'Nouveau Texte', fill: '#fff', fontSize: 30, rotation: 0, scaleX: 1, scaleY: 1 })} className="glass px-3 py-2 rounded text-white text-sm hover:bg-white/10">Texte</button>
-            <button onClick={() => fileInputRef.current?.click()} className="glass px-3 py-2 rounded text-white text-sm hover:bg-white/10">Image</button>
-            <input type="file" ref={fileInputRef} onChange={handleImageUpload} accept="image/*" className="hidden" />
-            <button onClick={handleExport} className="bg-purple-600 px-3 py-2 rounded text-white text-sm hover:bg-purple-500">Sauvegarder</button>
-            <button onClick={onClose} className="text-white p-2 ml-2">✕</button>
+    <motion.div
+      className="fixed inset-0 bg-black/80 z-50 flex"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <StickerPanel />
+      <div className="flex-1 relative">
+        <div className="absolute top-4 left-4 flex gap-2 z-50">
+          {themes.map(t => (
+            <button key={t.id} onClick={() => setTheme(t)} className="glass px-4 py-2 rounded-lg hover:bg-white/20">
+              {t.name}
+            </button>
+          ))}
         </div>
-      </div>
-      <div className="flex-1 flex overflow-hidden">
-        <div className="flex-1 bg-gray-900 flex items-center justify-center p-4" ref={containerRef}>
-          <div className="relative shadow-2xl overflow-hidden border border-white/10" style={{ width: '100%', height: '100%', maxWidth: '800px', maxHeight: '600px' }}>
-            <Stage ref={stageRef} width={stageSize.width} height={stageSize.height} onMouseDown={(e) => { if (e.target === e.target.getStage()) selectElement(null) }}>
+        <button onClick={onClose} className="absolute top-4 right-4 glass px-4 py-2 rounded-lg hover:bg-red-500/20">
+          Fermer
+        </button>
+
+        <div className="flex items-center justify-center h-full p-8">
+          <div className="glass-card p-4 rounded-3xl">
+            <Stage width={800} height={600} onMouseDown={() => selectElement(null)}>
               <Layer>
-                <BackgroundLayer themeName={currentThemeName} width={stageSize.width} height={stageSize.height} />
-                {elements.map((el) => {
-                    if (el.type === 'text') return <EditableText key={el.id} textProps={el} isSelected={el.id === selectedId} onSelect={() => selectElement(el.id)} onChange={(attrs: any) => updateElement(el.id, attrs)} />
-                    if (el.type === 'image' && el.src) return <URLImage key={el.id} imageProps={el} isSelected={el.id === selectedId} onSelect={() => selectElement(el.id)} onChange={(attrs: any) => updateElement(el.id, attrs)} />
-                    return null
+                {status === 'loaded' ? (
+                  <Image image={bgImage} width={800} height={600} />
+                ) : (
+                  <rect width={800} height={600} fill={currentTheme.colors.background} />
+                )}
+                {elements.sort((a, b) => a.zIndex - b.zIndex).map(el => {
+                  if (el.type === 'text') {
+                    return (
+                      <Text
+                        key={el.id}
+                        text={el.content}
+                        x={el.x}
+                        y={el.y}
+                        fontSize={el.fontSize}
+                        fontFamily={el.fontFamily}
+                        fontStyle={el.fontStyle}
+                        fontVariant={el.fontWeight === 'bold' ? 'bold' : 'normal'}
+                        textDecoration={''}
+                        align={el.textAlign}
+                        fill={el.fill}
+                        rotation={el.rotation}
+                        draggable
+                        onClick={() => selectElement(el.id)}
+                        onDragEnd={e => updateElement(el.id, { x: e.target.x(), y: e.target.y() })}
+                        onTransformEnd={e => {
+                          const node = e.target;
+                          updateElement(el.id, {
+                            x: node.x(),
+                            y: node.y(),
+                            width: node.width() * node.scaleX(),
+                            height: node.height() * node.scaleY(),
+                            rotation: node.rotation()
+                          });
+                          node.scaleX(1);
+                          node.scaleY(1);
+                        }}
+                      />
+                    );
+                  } else if (el.type === 'sticker') {
+                    const [stickerImage] = useImage(el.content || '');
+                    return (
+                      <Image
+                        key={el.id}
+                        image={stickerImage}
+                        x={el.x}
+                        y={el.y}
+                        width={el.width}
+                        height={el.height}
+                        rotation={el.rotation}
+                        draggable
+                        onClick={() => selectElement(el.id)}
+                        onDragEnd={e => updateElement(el.id, { x: e.target.x(), y: e.target.y() })}
+                        onTransformEnd={e => {
+                          const node = e.target;
+                          updateElement(el.id, {
+                            x: node.x(),
+                            y: node.y(),
+                            width: node.width() * node.scaleX(),
+                            height: node.height() * node.scaleY(),
+                            rotation: node.rotation()
+                          });
+                          node.scaleX(1);
+                          node.scaleY(1);
+                        }}
+                      />
+                    );
+                  }
+                  return null;
                 })}
+                {selectedId && (
+                  <Transformer
+                    attachedTo={undefined}
+                    boundBoxFunc={(oldBox, newBox) => {
+                      if (newBox.width < 20 || newBox.height < 20) return oldBox;
+                      return newBox;
+                    }}
+                  />
+                )}
               </Layer>
             </Stage>
           </div>
         </div>
-        {/* Sidebar simplifiée pour éviter les erreurs */}
-        <div className="w-64 glass border-l border-white/10 p-4 text-white hidden lg:block">
-            <h4 className="font-bold mb-4 text-sm">Options</h4>
-            {selectedId ? <button onClick={() => removeElement(selectedId)} className="w-full py-2 bg-red-500/20 text-red-300 rounded">Supprimer</button> : <p className="text-sm text-gray-500">Sélectionnez un élément</p>}
-        </div>
       </div>
+      <Toolbar />
     </motion.div>
-  )
+  );
 }

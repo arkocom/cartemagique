@@ -9,6 +9,7 @@ import AIAssistant from '@/components/ai-assistant'
 import ExportModal from '@/components/export-modal'
 import { useAppStore } from '@/stores/appStore'
 
+// Nourri : Ajout de gestion du thème via store pour synchronisation avec l'éditeur
 export default function CompletePage() {
   const [showEditor, setShowEditor] = useState(false)
   const [showAI, setShowAI] = useState(false)
