@@ -1,51 +1,38 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { CardElement, Theme } from '@/types';
+import { create } from 'zustand'
+import { CanvasElement } from '@/types'
+import { themes } from '@/lib/themes'
 
 interface AppState {
-  elements: CardElement[];
-  selectedId: string | null;
-  theme: Theme | null;
-  addElement: (el: CardElement) => void;
-  updateElement: (id: string, updates: Partial<CardElement>) => void;
-  deleteElement: (id: string) => void;
-  selectElement: (id: string | null) => void;
-  setTheme: (t: Theme | null) => void;
-  bringToFront: (id: string) => void;
-  sendToBack: (id: string) => void;
+  selectedThemeName: string
+  elements: CanvasElement[]
+  selectedId: string | null
+  setSelectedThemeName: (name: string) => void
+  addElement: (element: CanvasElement) => void
+  updateElement: (id: string, attrs: Partial<CanvasElement>) => void
+  selectElement: (id: string | null) => void
+  removeElement: (id: string) => void
 }
 
-export const useAppStore = create<AppState>()(
-  persist(
-    (set) => ({
-      elements: [],
-      selectedId: null,
-      theme: null,
-      addElement: (el) => set((s) => ({ elements: [...s.elements, { ...el, zIndex: s.elements.length }] })),
-      updateElement: (id, updates) => set((s) => ({
-        elements: s.elements.map(e => e.id === id ? { ...e, ...updates } : e)
-      })),
-      deleteElement: (id) => set((s) => ({
-        elements: s.elements.filter(e => e.id === id),
-        selectedId: s.selectedId === id ? null : s.selectedId
-      })),
-      selectElement: (id) => set({ selectedId: id }),
-      setTheme: (theme) => set({ theme }),
-      bringToFront: (id) => set((s) => {
-        const idx = s.elements.findIndex(e => e.id === id);
-        if (idx === -1 || idx === s.elements.length - 1) return s;
-        const arr = [...s.elements];
-        [arr[idx], arr[idx + 1]] = [arr[idx + 1], arr[idx]];
-        return { elements: arr.map((e, i) => ({ ...e, zIndex: i })) };
-      }),
-      sendToBack: (id) => set((s) => {
-        const idx = s.elements.findIndex(e => e.id === id);
-        if (idx === 0) return s;
-        const arr = [...s.elements];
-        [arr[idx], arr[idx - 1]] = [arr[idx - 1], arr[idx]];
-        return { elements: arr.map((e, i) => ({ ...e, zIndex: i })) };
-      })
-    }),
-    { name: 'cartemagique-v2' }
-  )
-);
+export const useAppStore = create<AppState>((set) => ({
+  selectedThemeName: 'Celestial Dreams',
+  elements: [],
+  selectedId: null,
+
+  setSelectedThemeName: (name) => set({ selectedThemeName: name }), // Juste le nom pour éviter les bugs d'objet
+  
+  addElement: (element) => set((state) => ({ 
+    elements: [...state.elements, element],
+    selectedId: element.id 
+  })),
+  
+  updateElement: (id, attrs) => set((state) => ({
+    elements: state.elements.map((el) => el.id === id ? { ...el, ...attrs } : el),
+  })),
+  
+  selectElement: (id) => set({ selectedId: id }),
+  
+  removeElement: (id) => set((state) => ({
+    elements: state.elements.filter((el) => el.id !== id),
+    selectedId: null
+  })),
+}))

@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Force Next.js à traiter ces paquets pour éviter les bugs d'import
+  // On force le transpilage pour éviter les erreurs de modules
   transpilePackages: ['react-konva', 'konva'],
 
   images: {
@@ -10,23 +10,14 @@ const nextConfig = {
     ],
   },
   
-  // Pas de 'appDir' ni 'swcMinify' ici ! (Ils sont par défaut dans Next 15)
   reactStrictMode: true,
-  
   typescript: { ignoreBuildErrors: true },
   eslint: { ignoreDuringBuilds: true },
 
-  // LA SOLUTION ANTI-CRASH CANVAS
+  // SOLUTION ANTI-CRASH POUR VERCEL
   webpack: (config) => {
-    // 1. On dit que canvas est externe
     config.externals = [...(config.externals || []), { canvas: "canvas" }];
-    
-    // 2. On force l'alias à false pour que Webpack arrête de le chercher
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      canvas: false,
-    };
-    
+    config.resolve.alias = { ...config.resolve.alias, canvas: false };
     return config;
   },
 }
