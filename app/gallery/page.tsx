@@ -3,15 +3,16 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { themes } from '@/lib/themes' // On utilise la source de vérité
 
-// On définit les images ici directement pour éviter tout bug d'import
+// On construit la galerie à partir des thèmes existants pour éviter les erreurs
 const GALLERY_ITEMS = [
-  { id: 1, title: "Vœux Célestes", author: "Marie L.", likes: 124, category: "Anniversaire", image: "/themes/celeste.png" },
-  { id: 2, title: "Merci Maman", author: "Thomas P.", likes: 89, category: "Fête", image: "/themes/floralee.png" },
-  { id: 3, title: "Zen Attitude", author: "Sarah J.", likes: 256, category: "Bien-être", image: "/themes/aquatique.png" },
-  { id: 4, title: "Noël au coin du feu", author: "Alex M.", likes: 450, category: "Fête", image: "/themes/cheminee.png" },
-  { id: 5, title: "Hiver Magique", author: "Sophie K.", likes: 300, category: "Saison", image: "/themes/hiver.png" },
-  { id: 6, title: "Invitation Dorée", author: "Lucas D.", likes: 92, category: "Anniversaire", image: "/themes/cieux.png" },
+  { id: 1, title: "Vœux Célestes", author: "Marie L.", likes: 124, category: "Anniversaire", image: themes[0].image },
+  { id: 2, title: "Merci Maman", author: "Thomas P.", likes: 89, category: "Fête", image: themes[1].image },
+  { id: 3, title: "Zen Attitude", author: "Sarah J.", likes: 256, category: "Bien-être", image: themes[2].image },
+  { id: 4, title: "Noël au coin du feu", author: "Alex M.", likes: 450, category: "Fête", image: themes[3].image },
+  { id: 5, title: "Hiver Magique", author: "Sophie K.", likes: 300, category: "Saison", image: themes[4].image },
+  { id: 6, title: "Invitation Dorée", author: "Lucas D.", likes: 92, category: "Anniversaire", image: themes[5].image },
 ]
 
 const CATEGORIES = ["Tout", "Anniversaire", "Fête", "Saison", "Bien-être"]
@@ -52,7 +53,6 @@ export default function GalleryPage() {
             {filteredItems.map((item) => (
                 <motion.div layout key={item.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="glass-card rounded-2xl overflow-hidden group border border-white/10">
                     <div className="h-56 relative bg-gray-800">
-                        {/* Utilisation simple de l'image en background */}
                         <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url(${item.image})` }} />
                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 backdrop-blur-sm">
                             <Link href="/complete" className="px-6 py-3 bg-white text-purple-900 font-bold rounded-full shadow-xl">Utiliser 🎨</Link>
