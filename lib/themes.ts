@@ -1,22 +1,11 @@
 // lib/themes.ts
 import type { Theme } from '@/types'
 
-const t = (
-  id: string,
-  name: string,
-  description: string,
-  path: string
-): Theme => ({
+const t = (id: string, name: string, description: string, path: string): Theme => ({
   id,
   name,
   description,
-  colors: {
-    primary: '#ffffff',
-    secondary: '#e2e8f0',
-    accent: '#cbd5e1',
-    background: '#0f172a',
-    text: '#ffffff',
-  },
+  colors: { primary: '#ffffff', secondary: '#e2e8f0', accent: '#cbd5e1', background: '#0f172a', text: '#ffffff' },
   particles: 'snowflakes',
   music: 'default',
   image: path,

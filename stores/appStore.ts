@@ -1,6 +1,6 @@
 // stores/appStore.ts
 import { create } from 'zustand'
-import type { CanvasElement, Theme } from '@/types'
+import type { CanvasElement } from '@/types'
 import { themes } from '@/lib/themes'
 
 const getDefaultText = (themeId: string): string => {
@@ -22,44 +22,40 @@ export interface AppState {
 
 export const useAppStore = create<AppState>((set) => ({
   selectedThemeId: 'noel-1',
-  elements: [
-    {
-      id: 'main-text',
-      type: 'text',
-      x: 400,
-      y: 300,
-      content: 'Joyeux Noël\nde la part de…',
-      fill: '#ffffff',
-      fontSize: 48,
-      fontFamily: 'Georgia, serif',
-      align: 'center',
-      rotation: 0,
-      scaleX: 1,
-      scaleY: 1,
-    },
-  ],
+  elements: [{
+    id: 'main-text',
+    type: 'text',
+    x: 400,
+    y: 300,
+    content: 'Joyeux Noël\nde la part de…',
+    fill: '#ffffff',
+    fontSize: 48,
+    fontFamily: 'Georgia, serif',
+    align: 'center',
+    rotation: 0,
+    scaleX: 1,
+    scaleY: 1,
+  }],
   selectedId: null,
 
   setSelectedThemeId: (id) => {
     const content = getDefaultText(id)
     set({
       selectedThemeId: id,
-      elements: [
-        {
-          id: 'main-text',
-          type: 'text',
-          x: 400,
-          y: 300,
-          content,
-          fill: '#ffffff',
-          fontSize: 48,
-          fontFamily: 'Georgia, serif',
-          align: 'center',
-          rotation: 0,
-          scaleX: 1,
-          scaleY: 1,
-        },
-      ],
+      elements: [{
+        id: 'main-text',
+        type: 'text',
+        x: 400,
+        y: 300,
+        content,
+        fill: '#ffffff',
+        fontSize: 48,
+        fontFamily: 'Georgia, serif',
+        align: 'center',
+        rotation: 0,
+        scaleX: 1,
+        scaleY: 1,
+      }],
       selectedId: null,
     })
   },

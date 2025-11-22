@@ -1,28 +1,18 @@
 // components/export-modal.tsx
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import html2canvas from 'html2canvas'
 import { useAppStore } from '@/stores/appStore'
 import { themes } from '@/lib/themes'
 
-export default function ExportModal({
-  isOpen,
-  onClose,
-  themeId,
-}: {
-  isOpen: boolean
-  onClose: () => void
-  themeId: string
-}) {
+export default function ExportModal({ isOpen, onClose, themeId }: { isOpen: boolean; onClose: () => void; themeId: string }) {
   const [isExporting, setIsExporting] = useState(false)
-  const exportPreviewRef = useRef<HTMLDivElement>(null)
 
   const handleExport = async () => {
     setIsExporting(true)
     try {
-      // Crée un élément temporaire pour le rendu
       const container = document.createElement('div')
       container.style.width = '800px'
       container.style.height = '1100px'
@@ -32,14 +22,11 @@ export default function ExportModal({
 
       const theme = themes.find(t => t.id === themeId) || themes[0]
       const img = new Image()
+      img.crossOrigin = 'anonymous'
       img.src = theme.image
-      img.style.width = '100%'
-      img.style.height = '100%'
-      img.style.objectFit = 'cover'
       container.appendChild(img)
 
-      // Attendre le chargement de l'image
-      await new Promise((resolve) => (img.onload = resolve))
+      await new Promise((resolve) => { img.onload = resolve; img.onerror = resolve })
 
       const canvas = await html2canvas(container, {
         scale: 2,
@@ -56,7 +43,7 @@ export default function ExportModal({
       onClose()
     } catch (error) {
       console.error('Export failed:', error)
-      alert('❌ Échec de l’export. Veuillez réessayer.')
+      alert('❌ Impossible de télécharger la carte. Réessayez.')
     } finally {
       setIsExporting(false)
     }
@@ -78,25 +65,19 @@ export default function ExportModal({
         onClick={(e) => e.stopPropagation()}
       >
         <h3 className="text-xl font-bold text-center text-white mb-2">🎁 Votre carte est prête !</h3>
-        <p className="text-gray-400 text-center mb-6">
-          Téléchargez votre carte de vœux en haute qualité (PNG).
-        </p>
+        <p className="text-gray-400 text-center mb-6">Téléchargez-la en haute qualité (PNG).</p>
 
         <div className="space-y-4">
           <button
             onClick={handleExport}
             disabled={isExporting}
-            className={`w-full py-3 rounded-xl font-semibold transition-all ${
+            className={`w-full py-3 rounded-xl font-semibold ${
               isExporting
                 ? 'bg-gray-600 cursor-not-allowed'
-                : 'bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-700 hover:to-amber-700 text-white'
+                : 'bg-gradient-to-r from-red-600 to-amber-600 text-white hover:from-red-700 hover:to-amber-700'
             }`}
           >
-            {isExporting ? (
-              <span>📥 Export en cours…</span>
-            ) : (
-              'Télécharger en PNG'
-            )}
+            {isExporting ? '📥 Export en cours…' : 'Télécharger en PNG'}
           </button>
 
           <button

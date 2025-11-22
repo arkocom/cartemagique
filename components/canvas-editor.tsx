@@ -8,15 +8,9 @@ import useImage from 'use-image'
 import { useAppStore } from '@/stores/appStore'
 import { themes } from '@/lib/themes'
 
-interface CanvasEditorProps {
-  isOpen: boolean
-  onClose: () => void
-}
-
 const BackgroundLayer = ({ themeId, width, height }: { themeId: string; width: number; height: number }) => {
   const theme = themes.find((t) => t.id === themeId) || themes[0]
   const [image] = useImage(theme.image, 'anonymous')
-
   return (
     <>
       <Rect width={width} height={height} fill="#0f172a" />
@@ -72,7 +66,7 @@ const EditableText = ({ textProps, isSelected, onSelect, onChange }: any) => {
   )
 }
 
-export default function CanvasEditor({ isOpen, onClose }: CanvasEditorProps) {
+export default function CanvasEditor({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const { selectedThemeId, elements, addElement, updateElement, selectedId, selectElement } = useAppStore()
   const [stageSize, setStageSize] = useState({ width: 800, height: 1100 })
   const containerRef = useRef<HTMLDivElement>(null)
