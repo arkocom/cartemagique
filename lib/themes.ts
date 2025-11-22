@@ -1,52 +1,61 @@
-import { Theme } from '@/types'
+// lib/themes.ts
+import type { Theme } from '@/types'
 
-export const themes: Theme[] = [
-  {
-    id: 'celestial',
-    name: 'Celestial Dreams',
-    description: 'Magie des étoiles',
-    colors: { primary: '#6366f1', secondary: '#8b5cf6', accent: '#06b6d4', background: '#1e1b4b', text: '#ffffff' },
-    particles: 'stars', music: 'celestial', gradient: '',
-    image: 'https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1000&auto=format&fit=crop'
+const t = (
+  id: string,
+  name: string,
+  description: string,
+  path: string
+): Theme => ({
+  id,
+  name,
+  description,
+  colors: {
+    primary: '#ffffff',
+    secondary: '#e2e8f0',
+    accent: '#cbd5e1',
+    background: '#0f172a',
+    text: '#ffffff',
   },
-  {
-    id: 'garden',
-    name: 'Enchanted Garden',
-    description: 'Douceur florale',
-    colors: { primary: '#10b981', secondary: '#ec4899', accent: '#a855f7', background: '#fdf2f8', text: '#1f2937' },
-    particles: 'petals', music: 'garden', gradient: '',
-    image: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=1000&auto=format&fit=crop'
-  },
-  {
-    id: 'ocean',
-    name: 'Ocean Whispers',
-    description: 'Calme profond',
-    colors: { primary: '#0ea5e9', secondary: '#06b6d4', accent: '#14b8a6', background: '#0c4a6e', text: '#ffffff' },
-    particles: 'bubbles', music: 'ocean', gradient: '',
-    image: 'https://images.unsplash.com/photo-1582967788606-a171f1080ca8?q=80&w=1000&auto=format&fit=crop'
-  },
-  {
-    id: 'fireside',
-    name: 'Fireside Warmth',
-    description: 'Chaleur du foyer',
-    colors: { primary: '#f97316', secondary: '#ef4444', accent: '#eab308', background: '#7c2d12', text: '#ffffff' },
-    particles: 'embers', music: 'fireside', gradient: '',
-    image: 'https://images.unsplash.com/photo-1542293787938-c9e299b880cc?q=80&w=1000&auto=format&fit=crop'
-  },
-  {
-    id: 'crystal',
-    name: 'Crystal Frost',
-    description: 'Hiver éternel',
-    colors: { primary: '#3b82f6', secondary: '#06b6d4', accent: '#f8fafc', background: '#1e40af', text: '#1f2937' },
-    particles: 'snowflakes', music: 'crystal', gradient: '',
-    image: 'https://images.unsplash.com/photo-1489674267075-cee793167910?q=80&w=1000&auto=format&fit=crop'
-  },
-  {
-    id: 'sunset',
-    name: 'Golden Sunset',
-    description: 'Lumière dorée',
-    colors: { primary: '#eab308', secondary: '#f97316', accent: '#ec4899', background: '#78350f', text: '#ffffff' },
-    particles: 'light-rays', music: 'sunset', gradient: '',
-    image: 'https://images.unsplash.com/photo-1495616811223-4d98c6e9d869?q=80&w=1000&auto=format&fit=crop'
-  }
+  particles: 'snowflakes',
+  music: 'default',
+  image: path,
+})
+
+export const themes = [
+  // ❄️ Hiver
+  t('hiver-1', 'Hiver 1', 'Paysage neigeux', '/themes/hiver/hiver-1.jpg'),
+  t('hiver-2', 'Hiver 2', 'Forêt enneigée', '/themes/hiver/hiver-2.jpg'),
+  t('hiver-3', 'Hiver 3', 'Lac gelé', '/themes/hiver/hiver-3.jpg'),
+  t('hiver-4', 'Hiver 4', 'Montagnes', '/themes/hiver/hiver-4.jpg'),
+  t('hiver-5', 'Hiver 5', 'Village alpin', '/themes/hiver/hiver-5.jpg'),
+  t('hiver-6', 'Hiver 6', 'Aurores', '/themes/hiver/hiver-6.jpg'),
+  t('hiver-7', 'Hiver 7', 'Arbres givrés', '/themes/hiver/hiver-7.jpg'),
+  t('hiver-8', 'Hiver 8', 'Tempête douce', '/themes/hiver/hiver-8.jpg'),
+  t('hiver-9', 'Hiver 9', 'Chalet', '/themes/hiver/hiver-9.jpg'),
+  t('hiver-10', 'Hiver 10', 'Ciel étoilé', '/themes/hiver/hiver-10.jpg'),
+
+  // 🎄 Noël
+  t('noel-1', 'Noël 1', 'Sapin lumineux', '/themes/noel/noel-1.jpg'),
+  t('noel-2', 'Noël 2', 'Décor doré', '/themes/noel/noel-2.jpg'),
+  t('noel-3', 'Noël 3', 'Cadeaux', '/themes/noel/noel-3.jpg'),
+  t('noel-4', 'Noël 4', 'Guirlandes', '/themes/noel/noel-4.jpg'),
+  t('noel-5', 'Noël 5', 'Boules', '/themes/noel/noel-5.jpg'),
+  t('noel-6', 'Noël 6', 'Scandinave', '/themes/noel/noel-6.jpg'),
+  t('noel-7', 'Noël 7', 'Ruelle festive', '/themes/noel/noel-7.jpg'),
+  t('noel-8', 'Noël 8', 'Étoile', '/themes/noel/noel-8.jpg'),
+  t('noel-9', 'Noël 9', 'Vitrine', '/themes/noel/noel-9.jpg'),
+  t('noel-10', 'Noël 10', 'Magie', '/themes/noel/noel-10.jpg'),
+
+  // 🥂 Nouvel An
+  t('nouvel-an-1', 'Nouvel An 1', 'Feux d’artifice', '/themes/nouvel-an/nouvel-an-1.jpg'),
+  t('nouvel-an-2', 'Nouvel An 2', 'Champagne', '/themes/nouvel-an/nouvel-an-2.jpg'),
+  t('nouvel-an-3', 'Nouvel An 3', 'Minuit magique', '/themes/nouvel-an/nouvel-an-3.jpg'),
+  t('nouvel-an-4', 'Nouvel An 4', 'Élégance dorée', '/themes/nouvel-an/nouvel-an-4.jpg'),
+  t('nouvel-an-5', 'Nouvel An 5', 'Nuit étoilée', '/themes/nouvel-an/nouvel-an-5.jpg'),
+  t('nouvel-an-6', 'Nouvel An 6', 'Confettis', '/themes/nouvel-an/nouvel-an-6.jpg'),
+  t('nouvel-an-7', 'Nouvel An 7', 'Horloge', '/themes/nouvel-an/nouvel-an-7.jpg'),
+  t('nouvel-an-8', 'Nouvel An 8', 'Lumières', '/themes/nouvel-an/nouvel-an-8.jpg'),
+  t('nouvel-an-9', 'Nouvel An 9', 'Espoir 2026', '/themes/nouvel-an/nouvel-an-9.jpg'),
+  t('nouvel-an-10', 'Nouvel An 10', 'Célébration', '/themes/nouvel-an/nouvel-an-10.jpg'),
 ]

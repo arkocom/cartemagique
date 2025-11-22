@@ -1,12 +1,19 @@
+// stores/appStore.ts
 import { create } from 'zustand'
-import { CanvasElement } from '@/types'
+import type { CanvasElement, Theme } from '@/types'
 import { themes } from '@/lib/themes'
 
-interface AppState {
-  selectedThemeName: string
+const getDefaultText = (themeId: string): string => {
+  if (themeId.startsWith('noel')) return 'Joyeux Noël\nde la part de…'
+  if (themeId.startsWith('nouvel-an')) return 'Bonne Année 2026 !'
+  return 'Meilleurs vœux\npour cette fin d’année'
+}
+
+export interface AppState {
+  selectedThemeId: string
   elements: CanvasElement[]
   selectedId: string | null
-  setSelectedThemeName: (name: string) => void
+  setSelectedThemeId: (id: string) => void
   addElement: (element: CanvasElement) => void
   updateElement: (id: string, attrs: Partial<CanvasElement>) => void
   selectElement: (id: string | null) => void
@@ -14,25 +21,65 @@ interface AppState {
 }
 
 export const useAppStore = create<AppState>((set) => ({
-  selectedThemeName: 'Celestial Dreams',
-  elements: [],
+  selectedThemeId: 'noel-1',
+  elements: [
+    {
+      id: 'main-text',
+      type: 'text',
+      x: 400,
+      y: 300,
+      content: 'Joyeux Noël\nde la part de…',
+      fill: '#ffffff',
+      fontSize: 48,
+      fontFamily: 'Georgia, serif',
+      align: 'center',
+      rotation: 0,
+      scaleX: 1,
+      scaleY: 1,
+    },
+  ],
   selectedId: null,
 
-  setSelectedThemeName: (name) => set({ selectedThemeName: name }), // Juste le nom pour éviter les bugs d'objet
-  
-  addElement: (element) => set((state) => ({ 
-    elements: [...state.elements, element],
-    selectedId: element.id 
-  })),
-  
-  updateElement: (id, attrs) => set((state) => ({
-    elements: state.elements.map((el) => el.id === id ? { ...el, ...attrs } : el),
-  })),
-  
+  setSelectedThemeId: (id) => {
+    const content = getDefaultText(id)
+    set({
+      selectedThemeId: id,
+      elements: [
+        {
+          id: 'main-text',
+          type: 'text',
+          x: 400,
+          y: 300,
+          content,
+          fill: '#ffffff',
+          fontSize: 48,
+          fontFamily: 'Georgia, serif',
+          align: 'center',
+          rotation: 0,
+          scaleX: 1,
+          scaleY: 1,
+        },
+      ],
+      selectedId: null,
+    })
+  },
+
+  addElement: (element) =>
+    set((state) => ({
+      elements: [...state.elements, element],
+      selectedId: element.id,
+    })),
+
+  updateElement: (id, attrs) =>
+    set((state) => ({
+      elements: state.elements.map((el) => (el.id === id ? { ...el, ...attrs } : el)),
+    })),
+
   selectElement: (id) => set({ selectedId: id }),
-  
-  removeElement: (id) => set((state) => ({
-    elements: state.elements.filter((el) => el.id !== id),
-    selectedId: null
-  })),
+
+  removeElement: (id) =>
+    set((state) => ({
+      elements: state.elements.filter((el) => el.id !== id),
+      selectedId: null,
+    })),
 }))
